@@ -1,0 +1,460 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://spring.io/guides/gs-producing-web-service"
+           targetNamespace="http://spring.io/guides/gs-producing-web-service" elementFormDefault="qualified">
+    <xs:complexType name="authentication">
+        <xs:sequence>
+            <xs:element name="username" type="xs:string"/>
+            <xs:element name="password" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="price">
+        <xs:sequence>
+            <xs:element name="amount" type="xs:double"/>
+            <xs:element name="currency" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="simple_id_name">
+        <xs:sequence>
+            <xs:element name="id" type="xs:int"/>
+            <xs:element name="name" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="result_message">
+        <xs:sequence>
+            <xs:element name="code" type="xs:int"/>
+            <xs:element name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="guest">
+        <xs:sequence>
+            <xs:element name="id" type="xs:int"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="phone_number" type="xs:string"/>
+            <xs:element name="email" type="xs:string"/>
+            <xs:element name="rewards" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="room">
+        <xs:sequence>
+            <xs:element name="room_id" type="xs:int"/>
+            <xs:element name="room_name" type="xs:string"/>
+            <xs:element name="room_price" type="tns:price"/>
+            <xs:element name="room_sleeps" type="xs:int"/>
+            <xs:element name="room_status" type="xs:int"/>
+            <xs:element name="linked_room" type="xs:int"/>
+            <xs:element name="room_size" type="xs:int"/>
+            <xs:element name="bed" type="xs:string"/>
+            <xs:element name="stairs" type="xs:int"/>
+            <xs:element name="tv" type="tns:simple_id_name"/>
+            <xs:element name="export_link" type="xs:string"/>
+            <xs:element name="description" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="employee">
+        <xs:sequence>
+            <xs:element name="id" type="xs:int"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="gender" type="xs:string"/>
+            <xs:element name="status" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="addon">
+        <xs:sequence>
+            <xs:element name="id" type="xs:int"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="price" type="xs:string"/>
+            <xs:element name="status" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="image">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="size" type="xs:string"/>
+            <xs:element name="status" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="registerRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="username" type="xs:string"/>
+                <xs:element name="role" type="xs:string"/>
+                <xs:element name="password" type="xs:string"/>
+                <xs:element name="confirm_password" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getSimpleResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="code" type="xs:int"/>
+                <xs:element name="message" type="xs:string"/>
+                <xs:element name="reservation_ids" type="xs:string"/>
+                <xs:element name="id" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getRoomRequest">
+        <xs:complexType>
+            <xs:sequence >
+                <xs:element name="room_id" type="xs:int" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getRoomResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="results_message" type="tns:result_message"/>
+                <xs:element name="room" type="tns:room"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getRoomImagesRequest">
+        <xs:complexType>
+            <xs:sequence >
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="room_id" type="xs:int" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getRoomImagesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="results_message" type="tns:result_message"/>
+                <xs:element name="image" maxOccurs="unbounded" type="tns:image"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="markImageDefaultRequest">
+        <xs:complexType>
+            <xs:sequence >
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="image_name" type="xs:string" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="removeImageRequest">
+        <xs:complexType>
+            <xs:sequence >
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="image_name" type="xs:string" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getIncomeRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="start_date" type="xs:string"/>
+                <xs:element name="end_date" type="xs:string"/>
+                <xs:element name="channel" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getGuestByPhoneNumberRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="phone_number" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getGuestByPhoneNumberResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="results_message" type="tns:result_message"/>
+                <xs:element name="id" type="xs:int"/>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="image_id" type="xs:string"/>
+                <xs:element name="phone_number" type="xs:string"/>
+                <xs:element name="email" type="xs:string"/>
+                <xs:element name="state" type="xs:string"/>
+                <xs:element name="comments" type="xs:string"/>
+                <xs:element name="id_number" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="addNoteRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="reservation_id" type="xs:int"/>
+                <xs:element name="note" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="createRoomRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="room_id" type="xs:int"/>
+                <xs:element name="room_name" type="xs:string"/>
+                <xs:element name="room_price" type="xs:int"/>
+                <xs:element name="room_sleeps" type="xs:int"/>
+                <xs:element name="room_status" type="xs:int"/>
+                <xs:element name="linked_room" type="xs:int"/>
+                <xs:element name="room_size" type="xs:int"/>
+                <xs:element name="bed" type="xs:string"/>
+                <xs:element name="stairs" type="xs:int"/>
+                <xs:element name="tv" type="tns:simple_id_name"/>
+                <xs:element name="description" type="xs:string"/>
+                <xs:element name="kids_policy" type="xs:string"/>
+                <xs:element name="amenities" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getAllRoomsRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="authentication" type="tns:authentication"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getRoomsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="results_message" type="tns:result_message"/>
+                <xs:element name="room"  maxOccurs="unbounded" type="tns:room"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="addChannelRequest">
+        <xs:complexType>
+            <xs:sequence >
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="url" type="xs:string" minOccurs="1"/>
+                <xs:element name="room_id" type="xs:int" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="removeChannelRequest">
+        <xs:complexType>
+            <xs:sequence >
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="channel_id" type="xs:int" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!--............................................Employee.....................................................-->
+
+    <xs:element name="createEmployeeRequest">
+        <xs:complexType>
+            <xs:sequence >
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="name" type="xs:string" minOccurs="1"/>
+                <xs:element name="gender" type="xs:string" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="updateEmployeeNameRequest">
+        <xs:complexType>
+            <xs:sequence >
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="id" type="xs:int" minOccurs="1"/>
+                <xs:element name="name" type="xs:string" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getEmployeeRequest">
+        <xs:complexType>
+            <xs:sequence >
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="id" type="xs:int" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getEmployeeResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="results_message" type="tns:result_message"/>
+                <xs:element name="employee" type="tns:employee"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getEmployeesRequest">
+        <xs:complexType>
+            <xs:sequence >
+                <xs:element name="authentication" type="tns:authentication"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getEmployeesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="results_message" type="tns:result_message"/>
+                <xs:element name="employee"  maxOccurs="unbounded" type="tns:employee"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="deleteEmployeeRequest">
+        <xs:complexType>
+            <xs:sequence >
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="id" type="xs:int" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!--............................................Add Ons.....................................................-->
+
+    <xs:element name="createAddonRequest">
+        <xs:complexType>
+            <xs:sequence >
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="name" type="xs:string" minOccurs="1"/>
+                <xs:element name="price" type="xs:int" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="updateAddonRequest">
+        <xs:complexType>
+            <xs:sequence >
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="id" type="xs:int" minOccurs="1"/>
+                <xs:element name="field" type="xs:string" minOccurs="1"/>
+                <xs:element name="value" type="xs:string" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getAddonRequest">
+        <xs:complexType>
+            <xs:sequence >
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="id" type="xs:int" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getAddonResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="results_message" type="tns:result_message"/>
+                <xs:element name="addon" type="tns:addon"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getAddonsRequest">
+        <xs:complexType>
+            <xs:sequence >
+                <xs:element name="authentication" type="tns:authentication"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getAddonsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="results_message" type="tns:result_message"/>
+                <xs:element name="addon"  maxOccurs="unbounded" type="tns:addon"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="deleteAddonRequest">
+        <xs:complexType>
+            <xs:sequence >
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="id" type="xs:int" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <!--............................................Reservations Section.....................................................-->
+
+    <xs:element name="getAvailableRoomsRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="authentication" type="tns:authentication"/>
+                    <xs:element name="check_in_date" type="xs:string"/>
+                <xs:element name="check_out_date" type="xs:string"/>
+                <xs:element name="property_guid" type="xs:string"/>
+                <xs:element name="kids" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="createReservationRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="room_ids" type="xs:string"/>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="phone_number" type="xs:string"/>
+                <xs:element name="email" type="xs:string"/>
+                <xs:element name="adult_guests" type="xs:int"/>
+                <xs:element name="child_guests" type="xs:int"/>
+                <xs:element name="check_in_date" type="xs:string"/>
+                <xs:element name="check_out_date" type="xs:string"/>
+                <xs:element name="date" type="xs:string"/>
+                <xs:element name="smoking" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="createReservationResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="result_code" type="xs:int"/>
+                <xs:element name="result_message" type="xs:string"/>
+                <xs:element name="reservation_id" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getReservationRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="reservation_id" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getReservationResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="result_message" type="tns:result_message"/>
+                <xs:element name="id" type="xs:int"/>
+                <xs:element name="check_in" type="xs:string"/>
+                <xs:element name="check_out" type="xs:string"/>
+                <xs:element name="status" type="xs:int"/>
+                <xs:element name="guest" type="tns:guest"/>
+                <xs:element name="check_in_status" type="xs:string"/>
+                <xs:element name="check_in_time" type="xs:string"/>
+                <xs:element name="check_out_time" type="xs:string"/>
+                <xs:element name="checked_in_time" type="xs:string"/>
+                <xs:element name="room" type="tns:room"/>
+                <xs:element name="total_paid" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="addPaymentRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="id" type="xs:int"/>
+                <xs:element name="amount" type="xs:int"/>
+                <xs:element name="channel" type="xs:string"/>
+                <xs:element name="reference" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getPaymentRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="id" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getPaymentResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="result_message" type="tns:result_message"/>
+                <xs:element name="id" type="xs:int"/>
+                <xs:element name="date" type="xs:string"/>
+                <xs:element name="amount" type="xs:int"/>
+                <xs:element name="channel" type="xs:string"/>
+                <xs:element name="discount" type="xs:boolean"/>
+                <xs:element name="reference" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="removePaymentRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="id" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
