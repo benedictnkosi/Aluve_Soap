@@ -68,14 +68,14 @@ public class CreateReservationEndpoint {
         String message = restHelper.postWithFormData(endPoint ,data, headers);
 
         System.out.println("message: " + message);
-        JSONObject jsonObj = new JSONObject(message.replace("[","").replace("]",""));
+        JSONObject jsonObj = new JSONObject(message);
         Assert.isTrue(jsonObj.getInt("result_code") == 0, jsonObj.getString("result_message"));
 
         CreateReservationResponse createReservationResponse = new CreateReservationResponse();
         createReservationResponse.setResultCode(jsonObj.getInt("result_code"));
         createReservationResponse.setResultMessage(jsonObj.getString("result_message"));
         if(jsonObj.getInt("result_code") == 0){
-            createReservationResponse.setReservationId(String.valueOf(jsonObj.getString("reservation_id")));
+            createReservationResponse.setReservationId(String.valueOf(jsonObj.get("reservation_id").toString()));
         }
         return createReservationResponse;
 

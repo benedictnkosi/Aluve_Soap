@@ -60,11 +60,15 @@ public class AddPaymentEndpoint {
         System.out.println("message: " + message);
         JSONObject jsonObj = new JSONObject(message.replace("[","").replace("]",""));
 
+        if(!jsonObj.isNull("result_message")){
+            Assert.isTrue(jsonObj.getInt("result_code") == 0, jsonObj.getString("result_message"));
+        }
+
         Assert.isTrue(jsonObj.getInt("result_code") == 0, jsonObj.getString("result_message"));
         GetSimpleResponse getSimpleResponse = new GetSimpleResponse();
         getSimpleResponse.setCode(jsonObj.getInt("result_code"));
         getSimpleResponse.setMessage(jsonObj.getString("result_message"));
-        getSimpleResponse.setId(String.valueOf(jsonObj.getInt("id")));
+        getSimpleResponse.setId(String.valueOf(jsonObj.getInt("payment_id")));
         return getSimpleResponse;
     }
 

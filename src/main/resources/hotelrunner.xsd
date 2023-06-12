@@ -72,6 +72,31 @@
             <xs:element name="status" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
+    <xs:complexType name="reservation">
+        <xs:sequence>
+            <xs:element name="id" type="xs:int"/>
+            <xs:element name="check_in" type="xs:string"/>
+            <xs:element name="check_out" type="xs:string"/>
+            <xs:element name="status" type="xs:int"/>
+            <xs:element name="guest" type="tns:guest"/>
+            <xs:element name="check_in_status" type="xs:string"/>
+            <xs:element name="check_in_time" type="xs:string"/>
+            <xs:element name="check_out_time" type="xs:string"/>
+            <xs:element name="checked_in_time" type="xs:string"/>
+            <xs:element name="room" type="tns:room"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="payment">
+        <xs:sequence>
+            <xs:element name="id" type="xs:int"/>
+            <xs:element name="date" type="xs:string"/>
+            <xs:element name="amount" type="xs:double"/>
+            <xs:element name="channel" type="xs:string"/>
+            <xs:element name="discount" type="xs:string"/>
+            <xs:element name="reference" type="xs:string"/>
+            <xs:element name="reservation_id" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
     <xs:element name="registerRequest">
         <xs:complexType>
             <xs:sequence>
@@ -402,18 +427,7 @@
     <xs:element name="getReservationResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="result_message" type="tns:result_message"/>
-                <xs:element name="id" type="xs:int"/>
-                <xs:element name="check_in" type="xs:string"/>
-                <xs:element name="check_out" type="xs:string"/>
-                <xs:element name="status" type="xs:int"/>
-                <xs:element name="guest" type="tns:guest"/>
-                <xs:element name="check_in_status" type="xs:string"/>
-                <xs:element name="check_in_time" type="xs:string"/>
-                <xs:element name="check_out_time" type="xs:string"/>
-                <xs:element name="checked_in_time" type="xs:string"/>
-                <xs:element name="room" type="tns:room"/>
-                <xs:element name="total_paid" type="xs:int"/>
+                <xs:element name="reservation" type="tns:reservation"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -454,6 +468,38 @@
             <xs:sequence>
                 <xs:element name="authentication" type="tns:authentication"/>
                 <xs:element name="id" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getReservationPaymentsRequest">
+        <xs:complexType>
+            <xs:sequence >
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="reservation_id" type="xs:int" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getReservationPaymentsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="results_message" type="tns:result_message"/>
+                <xs:element name="payment"  maxOccurs="unbounded" type="tns:payment"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getReservationsRequest">
+        <xs:complexType>
+            <xs:sequence >
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="period" type="xs:string" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getReservationsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="results_message" type="tns:result_message"/>
+                <xs:element name="reservation"  maxOccurs="unbounded" type="tns:reservation"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

@@ -1,4 +1,4 @@
-package com.aluvesqe.producingwebservice.configuration;
+package com.aluvesqe.producingwebservice.configuration.room;
 
 
 import com.aluvesqe.producingwebservice.Properties;
@@ -13,46 +13,41 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Endpoint
-public class GetAllRoomsEndpoint {
+public class GetRoomEndpoint {
     private static final String NAMESPACE_URI = "http://spring.io/guides/gs-producing-web-service";
 
     @Autowired
-    public GetAllRoomsEndpoint() {
+    public GetRoomEndpoint() {
 
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getAllRoomsRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getRoomRequest")
     @ResponsePayload
-    public GetRoomsResponse getAllRooms(@RequestPayload GetAllRoomsRequest request) {
-        String endPoint = "/no_auth/rooms/all";
+    public GetRoomResponse getRoomNumber(@RequestPayload GetRoomRequest request) {
+        Assert.isTrue(request.getRoomId() > 0, "The room id value must be greater than zero");
+
+        String endPoint = "/no_auth/rooms/"+request.getRoomId();
 
         //call the rest service
+        System.out.println("URL is " + Properties.getURL());
         RestHelper restHelper =  new RestHelper(Properties.getURL());
 
-        String username = request.getAuthentication().getUsername();
-        String password = request.getAuthentication().getPassword();
-
-        //call the rest service
-        String cookie = restHelper.login(username, password);
-        Assert.notNull(cookie, "Failed to authenticate user");
-        String message = restHelper.callRest(endPoint ,"GET", cookie);
-
+        String message = restHelper.callRest(endPoint ,"GET", "no-auth");
         System.out.println("Message: " + message);
-        GetRoomsResponse getAllRoomsResponse = new GetRoomsResponse();
-        JSONArray array = new JSONArray(message);
 
-        for(int i=0; i < array.length(); i++)
-        {
+        JSONArray array = new JSONArray(message);
+        GetRoomResponse getRoomResponse = new GetRoomResponse();
+        for(int i=0; i < array.length(); i++) {
             JSONObject jsonObj = array.getJSONObject(i);
+
             ResultMessage resultMessage =  new ResultMessage();
             if(jsonObj.getInt("result_code") != 0){
                 Assert.isTrue(jsonObj.getInt("result_code") == 0, jsonObj.getString("result_message"));
             }
 
+            resultMessage.setCode(jsonObj.getInt("result_code"));
+            getRoomResponse.setResultsMessage(resultMessage);
             Room room = new Room();
             room.setRoomId(jsonObj.getInt("id"));
             room.setRoomName(jsonObj.getString("name"));
@@ -72,13 +67,10 @@ public class GetAllRoomsEndpoint {
             simpleIdName.setId(jsonObj.getInt("tv"));
             room.setTv(simpleIdName);
             room.setExportLink(jsonObj.getString("export_link"));
-            getAllRoomsResponse.getRoom().add(room);
-            resultMessage.setCode(0);
-            getAllRoomsResponse.setResultsMessage(resultMessage);
+            getRoomResponse.setRoom(room);
         }
 
-
-
-        return getAllRoomsResponse;
+        return getRoomResponse;
     }
+
 }

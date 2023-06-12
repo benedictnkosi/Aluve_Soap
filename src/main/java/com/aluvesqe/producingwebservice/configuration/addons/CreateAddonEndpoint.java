@@ -57,7 +57,7 @@ public class CreateAddonEndpoint {
         GetSimpleResponse getSimpleResponse = new GetSimpleResponse();
         getSimpleResponse.setCode(jsonObj.getInt("result_code"));
         getSimpleResponse.setMessage(jsonObj.getString("result_message"));
-        getSimpleResponse.setId(String.valueOf(jsonObj.getInt("add_on_id")));
+        getSimpleResponse.setId(String.valueOf(jsonObj.getInt("id")));
         return getSimpleResponse;
     }
 

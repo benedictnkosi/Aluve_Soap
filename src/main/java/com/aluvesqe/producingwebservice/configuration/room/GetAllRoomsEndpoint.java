@@ -1,4 +1,4 @@
-package com.aluvesqe.producingwebservice.configuration;
+package com.aluvesqe.producingwebservice.configuration.room;
 
 
 import com.aluvesqe.producingwebservice.Properties;
@@ -13,24 +13,22 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Endpoint
-public class GetAvailableRoomsEndpoint {
+public class GetAllRoomsEndpoint {
     private static final String NAMESPACE_URI = "http://spring.io/guides/gs-producing-web-service";
 
     @Autowired
-    public GetAvailableRoomsEndpoint() {
+    public GetAllRoomsEndpoint() {
 
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getAvailableRoomsRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getAllRoomsRequest")
     @ResponsePayload
-    public GetRoomsResponse getAvailableRooms(@RequestPayload GetAvailableRoomsRequest request) {
-        Assert.isTrue(request.getCheckInDate() != null && request.getCheckInDate().length() > 0, "The check in date must not be null");
-        Assert.isTrue(request.getCheckOutDate() != null && request.getCheckOutDate().length() > 0, "The check out date must not be null");
-        Assert.isTrue(request.getPropertyGuid() != null && request.getPropertyGuid().length() > 0, "The property guid must not be null");
-        Assert.isTrue(request.getKids() > -1, "The kids value must be greater than zero");
-
-        String endPoint = "/no_auth/availableroomsjson/"+request.getCheckInDate()+"/"+request.getCheckOutDate()+"/"+request.getPropertyGuid()+"/" + request.getKids();
+    public GetRoomsResponse getAllRooms(@RequestPayload GetAllRoomsRequest request) {
+        String endPoint = "/no_auth/rooms/all";
 
         //call the rest service
         RestHelper restHelper =  new RestHelper(Properties.getURL());
@@ -43,14 +41,17 @@ public class GetAvailableRoomsEndpoint {
         Assert.notNull(cookie, "Failed to authenticate user");
         String message = restHelper.callRest(endPoint ,"GET", cookie);
 
-       // System.out.println("Message: " + message);
+        System.out.println("Message: " + message);
         GetRoomsResponse getAllRoomsResponse = new GetRoomsResponse();
         JSONArray array = new JSONArray(message);
+
         for(int i=0; i < array.length(); i++)
         {
             JSONObject jsonObj = array.getJSONObject(i);
             ResultMessage resultMessage =  new ResultMessage();
-            Assert.isTrue(jsonObj.getInt("result_code") == 0, jsonObj.getString("result_message"));
+            if(jsonObj.getInt("result_code") != 0){
+                Assert.isTrue(jsonObj.getInt("result_code") == 0, jsonObj.getString("result_message"));
+            }
 
             Room room = new Room();
             room.setRoomId(jsonObj.getInt("id"));

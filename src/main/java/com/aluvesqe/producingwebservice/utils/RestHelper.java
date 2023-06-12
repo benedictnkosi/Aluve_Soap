@@ -16,6 +16,14 @@ public class RestHelper {
     }
 
 
+    public String callRestWithQueryParameters(String endPoint, String callType, String cookie, Map<String, String> parameters) {
+        StringBuilder queryParameters = new StringBuilder("?");
+        for (Map.Entry<String, String> entry : parameters.entrySet()) {
+            queryParameters.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
+        }
+        return callRest(endPoint + queryParameters, callType, cookie);
+    }
+
     public String callRest(String endPoint, String callType, String cookie) {
         URL url;
         HttpURLConnection con;

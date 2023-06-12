@@ -1,11 +1,11 @@
-package com.aluvesqe.producingwebservice.configuration;
+package com.aluvesqe.producingwebservice.payment;
 
 
 import com.aluvesqe.producingwebservice.Properties;
 import com.aluvesqe.producingwebservice.utils.RestHelper;
 import io.spring.guides.gs_producing_web_service.GetSimpleResponse;
-import io.spring.guides.gs_producing_web_service.MarkImageDefaultRequest;
 import io.spring.guides.gs_producing_web_service.RemoveImageRequest;
+import io.spring.guides.gs_producing_web_service.RemovePaymentRequest;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
@@ -15,23 +15,23 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 @Endpoint
-public class RemoveImageEndpoint {
+public class RemovePaymentEndpoint {
     private static final String NAMESPACE_URI = "http://spring.io/guides/gs-producing-web-service";
 
     @Autowired
-    public RemoveImageEndpoint() {
+    public RemovePaymentEndpoint() {
 
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "removeImageRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "removePaymentRequest")
     @ResponsePayload
-    public GetSimpleResponse removeImage(@RequestPayload RemoveImageRequest request) {
-        Assert.isTrue(request.getImageName() != null && request.getImageName().length() > 0, "The image name must not be null");
+    public GetSimpleResponse removePayment(@RequestPayload RemovePaymentRequest request) {
+        Assert.isTrue( request.getId() > 0, "The id may not be zero");
 
         String username = request.getAuthentication().getUsername();
         String password = request.getAuthentication().getPassword();
 
-        String endPoint = "/api/configuration/removeimage/" + request.getImageName();
+        String endPoint = "/admin_api/payment/"+request.getId()+"/delete";
 
         //Login
         RestHelper restHelper =  new RestHelper(Properties.getURL());
@@ -40,10 +40,18 @@ public class RemoveImageEndpoint {
         String message = restHelper.callRest(endPoint ,"DELETE", cookie);
 
         System.out.println("message: " + message);
-        JSONObject jsonObj = new JSONObject(message.replace("[","").replace("]",""));
-        Assert.isTrue(jsonObj.getInt("result_code") == 0, jsonObj.getString("result_message"));
+        JSONObject jsonObj;
 
         GetSimpleResponse getSimpleResponse = new GetSimpleResponse();
+        try{
+            jsonObj = new JSONObject(message);
+        }catch(Exception exception){
+            System.out.println("exception: " + exception.getMessage());
+            getSimpleResponse.setCode(0);
+            getSimpleResponse.setMessage("Successfully deleted payment");
+            return getSimpleResponse;
+        }
+        Assert.isTrue(jsonObj.getInt("result_code") == 0, jsonObj.getString("result_message"));
         getSimpleResponse.setCode(jsonObj.getInt("result_code"));
         getSimpleResponse.setMessage(jsonObj.getString("result_message"));
         return getSimpleResponse;

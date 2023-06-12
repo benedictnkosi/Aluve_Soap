@@ -1,4 +1,4 @@
-package com.aluvesqe.producingwebservice.configuration;
+package com.aluvesqe.producingwebservice.configuration.room;
 
 
 import com.aluvesqe.producingwebservice.Properties;
