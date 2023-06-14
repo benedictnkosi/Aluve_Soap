@@ -6,5 +6,3 @@ Xsrc/main/java/com/aluvesqe/producingwebservice/reservations/GetReservationsEndp
 :
 
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
-Œ
-\src/main/java/com/aluvesqe/producingwebservice/configuration/addons/CreateAddonEndpoint.java,8\8\888c7ca04b406415164cc072d222ea93e40c3204

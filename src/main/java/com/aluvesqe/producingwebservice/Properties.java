@@ -20,7 +20,7 @@ public final  class Properties {
             switch (ipAddress) {
                 case "23.254.227.49":
                     return ETE_BASE_URL;
-                case "23.254.227.42":
+                case "192.236.176.67":
                     return STAGING_BASE_URL;
                 default:
                     return BASE_URL;
