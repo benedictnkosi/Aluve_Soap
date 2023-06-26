@@ -399,8 +399,8 @@
                 <xs:element name="name" type="xs:string"/>
                 <xs:element name="phone_number" type="xs:string"/>
                 <xs:element name="email" type="xs:string"/>
-                <xs:element name="adult_guests" type="xs:int"/>
-                <xs:element name="child_guests" type="xs:int"/>
+                <xs:element name="adult_guests" type="xs:string"/>
+                <xs:element name="child_guests" type="xs:string"/>
                 <xs:element name="check_in_date" type="xs:string"/>
                 <xs:element name="check_out_date" type="xs:string"/>
                 <xs:element name="date" type="xs:string"/>
