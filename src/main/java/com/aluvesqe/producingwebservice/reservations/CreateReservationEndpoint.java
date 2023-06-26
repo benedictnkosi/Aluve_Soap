@@ -36,9 +36,10 @@ public class CreateReservationEndpoint {
         Assert.isTrue(request.getEmail()  != null && request.getEmail().length() > 0, "The email must not be null");
         Assert.isTrue(request.getPhoneNumber()  != null && request.getPhoneNumber().length() > 0, "The phone number must not be null");
         Assert.isTrue(request.getSmoking()  != null && request.getSmoking().length() > 0, "The smoking must not be null");
+        Assert.isTrue(request.getAdultGuests() != null && request.getAdultGuests().length() > 0, "The adult guests value must be greater than zero");
+        Assert.isTrue(request.getChildGuests() != null && request.getChildGuests().length() > 0, "The child guests value is mandatory");
 
-        Assert.isTrue(request.getAdultGuests() > 0, "The adult guests value must be greater than zero");
-        Assert.isTrue(request.getChildGuests() > -1, "The child guests value must be greater than zero");
+        System.out.println("child guest " + request.getChildGuests());
 
         String username = request.getAuthentication().getUsername();
         String password = request.getAuthentication().getPassword();
