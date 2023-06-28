@@ -83,6 +83,7 @@
             <xs:element name="check_in_time" type="xs:string"/>
             <xs:element name="check_out_time" type="xs:string"/>
             <xs:element name="checked_in_time" type="xs:string"/>
+            <xs:element name="received_on" type="xs:string"/>
             <xs:element name="room" type="tns:room"/>
         </xs:sequence>
     </xs:complexType>
