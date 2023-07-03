@@ -65,6 +65,7 @@ public class GetReservationEndpoint {
             reservation.setCheckInTime(jsonObj.getString("check_in_time"));
             reservation.setGuest(guest);
             reservation.setRoom(room);
+            reservation.setReceivedOn(jsonObj.getString("received_on"));
             if(jsonObj.isNull("checked_in_time")) {
                 reservation.setCheckedInTime("null");
             }else{

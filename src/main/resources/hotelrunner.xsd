@@ -83,6 +83,7 @@
             <xs:element name="check_in_time" type="xs:string"/>
             <xs:element name="check_out_time" type="xs:string"/>
             <xs:element name="checked_in_time" type="xs:string"/>
+            <xs:element name="received_on" type="xs:string"/>
             <xs:element name="room" type="tns:room"/>
         </xs:sequence>
     </xs:complexType>
@@ -95,6 +96,13 @@
             <xs:element name="discount" type="xs:string"/>
             <xs:element name="reference" type="xs:string"/>
             <xs:element name="reservation_id" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="note">
+        <xs:sequence>
+            <xs:element name="id" type="xs:int"/>
+            <xs:element name="date" type="xs:string"/>
+            <xs:element name="note" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
     <xs:element name="registerRequest">
@@ -399,8 +407,8 @@
                 <xs:element name="name" type="xs:string"/>
                 <xs:element name="phone_number" type="xs:string"/>
                 <xs:element name="email" type="xs:string"/>
-                <xs:element name="adult_guests" type="xs:int"/>
-                <xs:element name="child_guests" type="xs:int"/>
+                <xs:element name="adult_guests" type="xs:string"/>
+                <xs:element name="child_guests" type="xs:string"/>
                 <xs:element name="check_in_date" type="xs:string"/>
                 <xs:element name="check_out_date" type="xs:string"/>
                 <xs:element name="date" type="xs:string"/>
@@ -500,6 +508,22 @@
             <xs:sequence>
                 <xs:element name="results_message" type="tns:result_message"/>
                 <xs:element name="reservation"  maxOccurs="unbounded" type="tns:reservation"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element><xs:element name="getReservationNotesRequest">
+    <xs:complexType>
+        <xs:sequence >
+            <xs:element name="authentication" type="tns:authentication"/>
+            <xs:element name="reservation_id" type="xs:int" minOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+    <xs:element name="getReservationNotesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="results_message" type="tns:result_message"/>
+                <xs:element name="note"  maxOccurs="unbounded" type="tns:note"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
