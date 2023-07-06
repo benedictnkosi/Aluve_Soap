@@ -18,6 +18,12 @@
             <xs:element name="name" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
+    <xs:complexType name="outstanding_cleaning">
+        <xs:sequence>
+            <xs:element name="room_name" type="xs:string"/>
+            <xs:element name="reason" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
     <xs:complexType name="result_message">
         <xs:sequence>
             <xs:element name="code" type="xs:int"/>
@@ -413,6 +419,8 @@
                 <xs:element name="check_out_date" type="xs:string"/>
                 <xs:element name="date" type="xs:string"/>
                 <xs:element name="smoking" type="xs:string"/>
+                <xs:element name="citizenship" type="xs:string"/>
+                <xs:element name="gender" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -495,6 +503,22 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+    <xs:element name="getReservationNotesRequest">
+        <xs:complexType>
+            <xs:sequence >
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="reservation_id" type="xs:int" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getReservationNotesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="results_message" type="tns:result_message"/>
+                <xs:element name="note"  maxOccurs="unbounded" type="tns:note"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
     <xs:element name="getReservationsRequest">
         <xs:complexType>
             <xs:sequence >
@@ -524,6 +548,85 @@
             <xs:sequence>
                 <xs:element name="results_message" type="tns:result_message"/>
                 <xs:element name="note"  maxOccurs="unbounded" type="tns:note"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="updateGuestIdNumberRequest">
+        <xs:complexType>
+            <xs:sequence >
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="id" type="xs:int" minOccurs="1"/>
+                <xs:element name="id_number" type="xs:string" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="addDiscountRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="id" type="xs:int" minOccurs="1"/>
+                <xs:element name="amount" type="xs:int" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="updateReservationRoomRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="reservation_id" type="xs:int" minOccurs="1"/>
+                <xs:element name="room_id" type="xs:int" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="updateReservationDatesRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="id" type="xs:int" minOccurs="1"/>
+                <xs:element name="check_in_date" type="xs:string" minOccurs="1"/>
+                <xs:element name="check_out_date" type="xs:string" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="addReservationAddOnRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="reservation_id" type="xs:int" minOccurs="1"/>
+                <xs:element name="add_on_id" type="xs:int" minOccurs="1"/>
+                <xs:element name="quantity" type="xs:int" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="removeReservationAddOnRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="reservation_addon_id" type="xs:int" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="addCleaningRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="authentication" type="tns:authentication"/>
+                <xs:element name="reservation_id" type="xs:int" minOccurs="1"/>
+                <xs:element name="employee_id" type="xs:int" minOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getCleaningsForTodayRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="authentication" type="tns:authentication"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getCleaningsForTodayResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="results_message" type="tns:result_message"/>
+                <xs:element name="outstanding_cleaning" maxOccurs="unbounded" type="tns:outstanding_cleaning"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

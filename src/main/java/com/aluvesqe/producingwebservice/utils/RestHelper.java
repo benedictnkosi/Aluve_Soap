@@ -1,10 +1,10 @@
 package com.aluvesqe.producingwebservice.utils;
 
-import javax.net.ssl.HttpsURLConnection;
+import okhttp3.*;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +15,26 @@ public class RestHelper {
         this.baseUrl = url;
     }
 
-
+    public String callRestWithJsonBody(String endPoint, String callType, Map<String, String> headers, String jsonBody){
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        Headers headerBuild = Headers.of(headers);
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = RequestBody.create(mediaType, jsonBody);
+        Request request = new Request.Builder()
+                .url(this.baseUrl + endPoint)
+                .method(callType, body)
+                .headers(headerBuild)
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            String message = response.body().string();
+            System.out.println(message);
+            return message;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public String callRestWithQueryParameters(String endPoint, String callType, String cookie, Map<String, String> parameters) {
         StringBuilder queryParameters = new StringBuilder("?");
         for (Map.Entry<String, String> entry : parameters.entrySet()) {
@@ -82,7 +101,6 @@ public class RestHelper {
         }
         return null;
     }
-
 
     public String postWithFormData(String endPoint, Map<String, String> data, Map<String, String> headers) {
         try {
