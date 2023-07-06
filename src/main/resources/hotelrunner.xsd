@@ -503,22 +503,6 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    <xs:element name="getReservationNotesRequest">
-        <xs:complexType>
-            <xs:sequence >
-                <xs:element name="authentication" type="tns:authentication"/>
-                <xs:element name="reservation_id" type="xs:int" minOccurs="1"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="getReservationNotesResponse">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="results_message" type="tns:result_message"/>
-                <xs:element name="note"  maxOccurs="unbounded" type="tns:note"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
     <xs:element name="getReservationsRequest">
         <xs:complexType>
             <xs:sequence >
