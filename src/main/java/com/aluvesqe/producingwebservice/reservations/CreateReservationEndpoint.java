@@ -38,6 +38,8 @@ public class CreateReservationEndpoint {
         Assert.isTrue(request.getSmoking()  != null && request.getSmoking().length() > 0, "The smoking must not be null");
         Assert.isTrue(request.getAdultGuests() != null && request.getAdultGuests().length() > 0, "The adult guests value must be greater than zero");
         Assert.isTrue(request.getChildGuests() != null && request.getChildGuests().length() > 0, "The child guests value is mandatory");
+        Assert.isTrue(request.getCitizenship() != null && request.getCitizenship().length() > 0, "The citizenship value is mandatory");
+        Assert.isTrue(request.getGender() != null && request.getGender().length() > 0, "The gender value is mandatory");
 
         System.out.println("child guest " + request.getChildGuests());
 
@@ -65,6 +67,8 @@ public class CreateReservationEndpoint {
         data.put("check_out_date",request.getCheckOutDate());
         data.put("date",String.valueOf(request.getDate()));
         data.put("smoking",String.valueOf(request.getSmoking()));
+        data.put("gender",String.valueOf(request.getGender()));
+        data.put("citizenship",String.valueOf(request.getCitizenship()));
 
         String message = restHelper.postWithFormData(endPoint ,data, headers);
 
