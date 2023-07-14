@@ -3,9 +3,6 @@
 Xsrc/main/java/com/aluvesqe/producingwebservice/reservations/GetReservationsEndpoint.java,7\4\746bad3ec347ea7a2a8af226c83f1ebc7f643535
 è
 _src/main/java/com/aluvesqe/producingwebservice/reservations/GetReservationPaymentsEndpoint.java,1\8\18841f176db0f4bc5cd41429e7e99350fa02c96e
-:
-
-.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
 å
 \src/main/java/com/aluvesqe/producingwebservice/configuration/addons/DeleteAddonEndpoint.java,4\4\443dc298d427932f192aba726c88cef72ca97d60
 å
@@ -38,5 +35,3 @@ t
 Dsrc/main/java/com/aluvesqe/producingwebservice/utils/RestHelper.java,d\b\dbc5f49c6567adb684500215dc6dc65cf4b3c98c
 Ä
 Psrc/main/java/com/aluvesqe/producingwebservice/reservations/AddNoteEndpoint.java,5\8\58608bfd028589ae1e3483d38cd2f60fd1b6b101
-á
-Wsrc/main/java/com/aluvesqe/producingwebservice/reservations/GetReservationEndpoint.java,b\a\ba2c960f455f55fdb96069c31c8f129e8f26a8bd
