@@ -47,7 +47,7 @@ public class UpdateGuestIdNumberEndpoint {
 
         //body json data
         JSONObject body =new JSONObject();
-        body.put("id", String.valueOf(request.getId()));
+        body.put("guest_id", String.valueOf(request.getId()));
         body.put("id_number",request.getIdNumber());
 
         String message = restHelper.callRestWithJsonBody(endPoint ,"PUT", headers, body.toString());
