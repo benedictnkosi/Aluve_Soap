@@ -41,12 +41,14 @@ public class AddCleaningEndpoint {
         RestHelper restHelper =  new RestHelper(Properties.getURL());
         String cookie = restHelper.login(username, password);
         Assert.notNull(cookie, "Failed to authenticate user");
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Cookie", cookie);
 
         Map<String, String> data =  new HashMap<>();
         data.put("reservation_id", String.valueOf(request.getReservationId()));
         data.put("employee_id", String.valueOf(request.getEmployeeId()));
 
-        String message = restHelper.callRestWithQueryParameters(endPoint ,"POST", cookie, data);
+        String message = restHelper.postWithFormData(endPoint ,data, headers);
         JSONObject jsonObj = new JSONObject(message.replace("[","").replace("]",""));
         Assert.isTrue(jsonObj.getInt("result_code") == 0, jsonObj.getString("result_message"));
 
