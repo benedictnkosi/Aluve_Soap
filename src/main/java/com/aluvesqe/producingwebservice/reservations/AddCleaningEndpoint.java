@@ -20,12 +20,10 @@ import java.util.Map;
 @Endpoint
 public class AddCleaningEndpoint {
     private static final String NAMESPACE_URI = "http://spring.io/guides/gs-producing-web-service";
-
     @Autowired
     public AddCleaningEndpoint() {
 
     }
-
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "addCleaningRequest")
     @ResponsePayload
     public GetSimpleResponse addCleaning(@RequestPayload AddCleaningRequest request) {
